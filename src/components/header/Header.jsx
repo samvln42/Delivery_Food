@@ -14,7 +14,9 @@ const Header = () => {
   const [logo, set_logo] = useState(null);
   const storage = JSON.parse(window.localStorage.getItem("user"));
   const navigate = useNavigate();
-  const [search, set_search] = useState("");
+  const [search, setSearch] = useState(
+    new URLSearchParams(window.location.search).get("search") || ""
+  );
   var store_id = false;
   var is_admin = false;
   if (localStorage.getItem("user")) {
@@ -84,31 +86,36 @@ const Header = () => {
       });
   }, [logo]);
 
-  function OnSearch(e) {
+  // function OnSearch(e) {
+  //   e.preventDefault();
+  //   let data = JSON.stringify({
+  //     search: search,
+  //   });
+
+  //   let config = {
+  //     method: "post",
+  //     maxBodyLength: Infinity,
+  //     url: import.meta.env.VITE_API + "/api/search",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     data: data,
+  //   };
+
+  //   axios
+  //     .request(config)
+  //     .then((response) => {
+  //       console.log(JSON.stringify(response.data));
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
+
+  const handleSearch = (e) => {
     e.preventDefault();
-    let data = JSON.stringify({
-      search: search,
-    });
-
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: import.meta.env.VITE_API + "/api/search",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+    navigate(`/search/?search=${search}`);
+  };
 
   return (
     <>
@@ -135,11 +142,13 @@ const Header = () => {
                   {/* <Link to="#" className="link ">
                     Chat
                   </Link> */}
-                  <Link to="/order"
+                  <Link
+                    to="/order"
                     className={
                       location.pathname === "/order" ? "link active" : "link"
                     }
-                    onClick={() => handleMenuClick("/order")}>
+                    onClick={() => handleMenuClick("/order")}
+                  >
                     Orders
                   </Link>
                 </div>
@@ -147,7 +156,10 @@ const Header = () => {
             </div>
 
             <div className="ulHead_box">
-              <form className="search_wrap search_wrap_2" onSubmit={OnSearch}>
+              <form
+                className="search_wrap search_wrap_2"
+                onSubmit={handleSearch}
+              >
                 <div className="search_box">
                   <div className="btn_common">
                     <FaMagnifyingGlass className="iconSearch" />
@@ -159,7 +171,7 @@ const Header = () => {
                     className="input_search_heaederr"
                     placeholder="Search..."
                     onChange={(e) => {
-                      set_search(e.target.value);
+                      setSearch(e.target.value);
                     }}
                   ></input>
                 </div>
@@ -168,24 +180,28 @@ const Header = () => {
               {user && (
                 <div className="right_ofHeadBox">
                   <div className="linkLi">
-                    <Link to="/cart"
-                    className={
-                      location.pathname === "/cart" ? "link active" : "link"
-                    }
-                    onClick={() => handleMenuClick("/cart")}>
+                    <Link
+                      to="/cart"
+                      className={
+                        location.pathname === "/cart" ? "link active" : "link"
+                      }
+                      onClick={() => handleMenuClick("/cart")}
+                    >
                       <FaCartShopping className="head_colorr" />
                     </Link>
                   </div>
                   <div className="linkLi">
-                    <Link to="/more"
-                    className={
-                      location.pathname === "/more" ? "link active" : "link"
-                    }
-                    onClick={() => handleMenuClick("/more")}>
+                    <Link
+                      to="/more"
+                      className={
+                        location.pathname === "/more" ? "link active" : "link"
+                      }
+                      onClick={() => handleMenuClick("/more")}
+                    >
                       <FaRegUser className="head_colorr" />
                     </Link>
                   </div>
-                 
+
                   {storage.is_admin !== false && (
                     <div className="userAndstore">
                       <Link to={`/dashboard`}>
@@ -199,7 +215,7 @@ const Header = () => {
               {!user && (
                 <div className="right_ofHeadBox">
                   <div className="linkLi">
-                    <Link >
+                    <Link>
                       <FaCartShopping className="head_colorr" />
                     </Link>
                   </div>
@@ -211,39 +227,6 @@ const Header = () => {
                   </div>
                 </div>
               )}
-
-              {/* {user ? (
-                <div className="right_ofHeadBox">
-                  <div className="boxsearchContainer">
-                    <Link to="/cart">
-                      <FaCartShopping className="head_colorr" />
-                    </Link>
-                  </div>
-
-                  <div className="userAndstore">
-                    <Link to={`/stores`}>
-                      <HiOutlineBuildingStorefront className="head_colorr" />
-                    </Link>
-                  </div>
-
-                  <div className="userAndstore">
-                    <Link to="/more">
-                      <FaRegUser className="head_colorr" />
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <div className="right_ofHeadBox">
-                  <div className="boxsearchContainer">
-                    <Link to="/cart">
-                      <FaCartShopping className="head_colorr" />
-                    </Link>
-                  </div>
-                  <div className="userAndstore">
-                    <Link to="/loginuser">Login</Link>
-                  </div>
-                </div>
-              )} */}
             </div>
           </div>
         </div>

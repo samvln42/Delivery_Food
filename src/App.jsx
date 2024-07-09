@@ -18,6 +18,7 @@ import ProfileEdit from "./components/profile/ProfileEdit";
 import Terms from "./components/termsandprivacy/Terms";
 import Privacy from "./components/termsandprivacy/Privacy";
 import More from "./components/more/More";
+import Search from "./components/header/Search";
 
 
 
@@ -106,6 +107,7 @@ function App() {
           <Route path="/privacy" Component={Privacy} />
 
           <Route path="/contact" Component={Contact} />
+          <Route path="/search" Component={Search} />
 
           {/* --------- Home Page ---------- */}
           <Route path="/" exact Component={Home} />

@@ -1,11 +1,12 @@
-import "./productHome.css";
 import productImage from "../../img/productImage.png";
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import Header from "../header/Header";
+import Banner from "../header/Banner";
+import Menu from "../menuFooter/Menu";
 
-const ProductHome = () => {
+const Search = () => {
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("user");
   const [logo, set_logo] = useState(null);
@@ -21,15 +22,17 @@ const ProductHome = () => {
   const totalPages = Math.ceil(goods_list.length / itemsPerPage);
 
   const urlParams = new URLSearchParams(window.location.search);
-  const searchParam = urlParams.get("search") || "";
-  const [search, setSearch] = useState(searchParam);
+  const searchParam = urlParams.get("search");
+  const [search, setSearch] = useState(searchParam || "");
+  const [appState, setAppState] = useState({
+    result: [],
+  });
 
   useEffect(() => {
-    if (search !== searchParam) {
+    if (searchParam) {
       setSearch(searchParam);
     }
   }, [searchParam]);
-  
 
   useEffect(() => {
     let config = {
@@ -71,32 +74,57 @@ const ProductHome = () => {
       });
   }, [logo]);
 
-  function OnSearch(e) {
-    e.preventDefault();
-    let data = JSON.stringify({
-      search: search,
-    });
+//   function OnSearch(e) {
+//     e.preventDefault();
+//     let data = JSON.stringify({
+//       search: search,
+//     });
 
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: import.meta.env.VITE_API + "/store/search",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
+//     let config = {
+//       method: "post",
+//       maxBodyLength: Infinity,
+//       url: import.meta.env.VITE_API + "/store/search",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       data: data,
+//     };
+
+//     axios
+//       .request(config)
+//       .then((response) => {
+//         console.log(JSON.stringify(response.data));
+//         set_goods_list(response.data);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   }
+useEffect(() => {
+    if (searchParam) {
+      setSearch(searchParam);
+    }
+  }, [searchParam]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API}/store/search/?search=${search}`
+        );
+        setAppState({
+          result: response.data,
+        });
+        setCurrentPage(1);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        set_goods_list(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+    fetchData();
+  }, [search]);
+
+
 
   function ChangeFilter(e, number) {
     e.stopPropagation();
@@ -168,7 +196,8 @@ const ProductHome = () => {
 
   return (
     <>
-    <Header/>
+      <Header />
+      <Banner />
       <div className="category_container2">
         {category_list.map((category, index) => (
           <div className="box-category" key={index}>
@@ -241,7 +270,7 @@ const ProductHome = () => {
               borderRadius: "5px",
               cursor: "pointer",
               background: "#FF4F16",
-              color: "white"
+              color: "white",
             }}
             disabled={currentPage === 1}
             onClick={prevPage}
@@ -276,7 +305,7 @@ const ProductHome = () => {
               borderRadius: "5px",
               cursor: "pointer",
               background: "#FF4F16",
-              color: "white"
+              color: "white",
             }}
             disabled={currentPage === totalPages}
             onClick={nextPage}
@@ -285,8 +314,9 @@ const ProductHome = () => {
           </button>
         </div>
       </div>
+      <Menu/>
     </>
   );
 };
 
-export default ProductHome;
+export default Search;
