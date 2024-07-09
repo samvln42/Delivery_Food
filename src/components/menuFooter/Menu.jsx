@@ -8,54 +8,80 @@ import { BsShop, BsClipboardCheck } from "react-icons/bs";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { GrContact } from "react-icons/gr";
 import { BsCart3 } from "react-icons/bs";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const Menu = () => {
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState("");
+  const [data, setData] = useState([]);
+
+  // console.log("data.....", data)
 
   // Function to handle click on menu item
   const handleMenuClick = (menuItem) => {
     setActiveMenu(menuItem);
   };
+
+  useEffect(() => {
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: import.meta.env.VITE_API + "/store/web-info",
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  // console.log("data.tel1......",data.tel1)
   return (
     <section>
       {/*Footer Menu For PC */}
 
       <footer className="footerBox">
-        <div className="footer_Container">
-          <div className="footconentBox">
-            <h3 className="txt_footHead">About</h3>
-            <Link to="/" className="txt_pFoot">
-              <img src={Logo1} alt="" />
-            </Link>
-            <p>Humascot</p>
-          </div>
+        {data.map((i, index) => (
+          <div className="footer_Container" key={index}>
+            <div className="footconentBox">
+              <h3 className="txt_footHead">About</h3>
+              <Link to="/" className="txt_pFoot">
+                <img src={Logo1} alt="" />
+              </Link>
+              <p>{i.name}</p>
+            </div>
 
-          <div className="footconentBox">
-            <h3 className="txt_footHead">Contact us</h3>
-            <p className="txt_pFoot">Phone: 020 998878788</p>
-            <p className="txt_pFoot">Phone: 020 998878788</p>
-            <p className="txt_pFoot">Email: humascot@gmail.com</p>
-            <p className="txt_pFoot">Address: Asean mall</p>
-          </div>
-          <div className="footconentBox3">
-            <h3 className="txt_footHead txh3">Download App</h3>
-            <div className="foot_contentItem">
-              <img src={QrdownloadApp} alt="QrdownloadApp" />
-              <div className="guop_btndownl">
-                <Link to="#" className="footLink">
-                  Play Store
-                </Link>
-                <Link to="#" className="footLink">
-                  App Store
-                </Link>
+            <div className="footconentBox">
+              <h3 className="txt_footHead">Contact us</h3>
+              <p className="txt_pFoot">Phone: {i.tel1}</p>
+              <p className="txt_pFoot">Phone: {i.tel2}</p>
+              <p className="txt_pFoot">Email: {i.email}</p>
+              <p className="txt_pFoot">Address: {i.address}</p>
+            </div>
+            <div className="footconentBox3">
+              <h3 className="txt_footHead txh3">Download App</h3>
+              <div className="foot_contentItem">
+                <img src={QrdownloadApp} alt="QrdownloadApp" />
+                <div className="guop_btndownl">
+                  <Link to="#" className="footLink">
+                    Play Store
+                  </Link>
+                  <Link to="#" className="footLink">
+                    App Store
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ))}
+          
+
         <hr className="hrfoo" />
-        <p className="lastFooter">Copyright &#169; TACA 2023</p>
+        <p className="lastFooter">Copyright &#169; Delivery 2023</p>
       </footer>
 
       {/* Footer Menu For Mobile */}

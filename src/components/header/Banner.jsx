@@ -26,7 +26,7 @@ const Banner = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        set_background_image(response.data[0].background);
+        set_background_image(response.data[0].banner1);
       })
       .catch((error) => {
         console.log(error);

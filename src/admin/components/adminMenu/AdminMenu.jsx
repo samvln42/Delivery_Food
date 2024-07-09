@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import imageicon from "../../../img/imageicon.jpg";
 import axios from "axios";
 import { CiBank } from "react-icons/ci";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 const AdminMenu = () => {
   const token = localStorage.getItem("token");
@@ -31,6 +33,7 @@ const AdminMenu = () => {
   const [logo, set_logo] = useState(null);
   const [image, set_image] = useState(null);
   const [mainImageLogo, setMainImagLogo] = useState(null);
+  const MySwal = withReactContent(Swal);
 
   // Choose logo image
   const [isPopupImageLogo, setPopupImageLogo] = useState(false);
@@ -141,15 +144,21 @@ const AdminMenu = () => {
       redirect: "follow",
     };
 
-    fetch(import.meta.env.VITE_API + `/store/web-info/2`, requestOptions)
+    fetch(import.meta.env.VITE_API + `/store/web-info/create_update`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         console.log(result);
-        alert("Update Logo image sussessful.");
+        MySwal.fire({
+          text: "Update Logo image sussessful.",
+          icon: "success",
+        });
+
         setPopupImageLogo(false);
         window.location.reload(false);
       })
       .catch((error) => console.error(error));
+
+    
   };
 
   return (
@@ -207,7 +216,7 @@ const AdminMenu = () => {
                       className="btn_confirm btn_addproducttxt_popup"
                       onClick={handleConfirmLogout}
                     >
-                    Yes
+                      Yes
                     </button>
                   </div>
                 </div>

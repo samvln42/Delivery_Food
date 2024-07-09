@@ -1,9 +1,12 @@
 import "./productHome.css";
 import productImage from "../../img/productImage.png";
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import Header from "../header/Header";
+import { HiOutlineBuildingStorefront } from "react-icons/hi2";
+import { FaMagnifyingGlass, FaCartShopping, FaRegUser } from "react-icons/fa6";
+import { AiOutlineDashboard } from "react-icons/ai";
+import { BiLogIn } from "react-icons/bi";
 
 const ProductHome = () => {
   const token = localStorage.getItem("token");
@@ -13,23 +16,13 @@ const ProductHome = () => {
   const [ShowFilter, setShowFilter] = useState(false);
   const [goods_list, set_goods_list] = useState([]);
   const storage = JSON.parse(window.localStorage.getItem("user"));
+  const [search, set_search] = useState("");
   const [filter, set_filter] = useState(1);
   const [category_list, set_category_list] = useState([]);
   const [category_name, set_category_name] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const totalPages = Math.ceil(goods_list.length / itemsPerPage);
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const searchParam = urlParams.get("search") || "";
-  const [search, setSearch] = useState(searchParam);
-
-  useEffect(() => {
-    if (search !== searchParam) {
-      setSearch(searchParam);
-    }
-  }, [searchParam]);
-  
 
   useEffect(() => {
     let config = {
@@ -167,8 +160,100 @@ const ProductHome = () => {
   console.log("Category: ", category_list);
 
   return (
-    <>
-    <Header/>
+    <div>
+      <section id="header">
+        <div className="navbar">
+          <div className="headWithBox">
+            <div className="headMenu">
+              <div className="logo1">
+                <Link to="/">
+                  <img src={logo} alt="Logo" />
+                </Link>
+              </div>
+              <div className="boxLiMenu">
+                <div className="linkLi">
+                  <Link to="/" className="link active">
+                    Home
+                  </Link>
+                  <Link to="#" className="link ">
+                    Chat
+                  </Link>
+                  <Link to="/order" className="link ">
+                    Orders
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="ulHead_box">
+              <form className="search_wrap search_wrap_2" onSubmit={OnSearch}>
+                <div className="search_box">
+                  <div className="btn_common" onClick={OnSearch}>
+                    <FaMagnifyingGlass className="iconSearch" />
+                  </div>
+                  <input
+                    id="search"
+                    type="text"
+                    value={search}
+                    className="input_search_heaederr"
+                    placeholder="search..."
+                    onChange={(e) => {
+                      set_search(e.target.value);
+                    }}
+                  ></input>
+                </div>
+              </form>
+
+              {user && (
+                <div className="right_ofHeadBox">
+                  <div className="boxsearchContainer">
+                    <Link to="/cart">
+                      <FaCartShopping className="head_colorr" />
+                    </Link>
+                  </div>
+                  <div className="userAndstore">
+                    <Link to="/more">
+                      <FaRegUser className="head_colorr" />
+                    </Link>
+                  </div>
+                  {storage.store_id !== false && (
+                    <div className="userAndstore">
+                      <Link to={`/dashboard`}>
+                        <HiOutlineBuildingStorefront className="head_colorr" />
+                      </Link>
+                    </div>
+                  )}
+                  {storage.is_admin !== false && (
+                    <div className="userAndstore">
+                      <Link to={`/dashboard`}>
+                        <AiOutlineDashboard className="head_colorr" />
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {!user && (
+                <div className="right_ofHeadBox">
+                  <div className="boxsearchContainer">
+                    <Link to="/cart">
+                      <FaCartShopping className="head_colorr" />
+                    </Link>
+                  </div>
+                  <div className="userAndstore">
+                    <Link to="/loginuser" className="Box_icon_login_BiLogIn">
+                    Login
+                    <BiLogIn id="icon_BiLogIn"/>
+                    </Link>
+                    {/* <BiLogIn id="icon_BiLogIn"/> */}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div className="category_container2">
         {category_list.map((category, index) => (
           <div className="box-category" key={index}>
@@ -285,7 +370,7 @@ const ProductHome = () => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

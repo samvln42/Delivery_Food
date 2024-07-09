@@ -37,9 +37,8 @@ const Product_Admin = () => {
 
   const MySwal = withReactContent(Swal);
 
-  console.log("sizes...:", sizes);
-  console.log("Colors...:", colors);
-  /////////////////////// Add Sizes
+  console.log("goods_list...", goods_list)
+
   useEffect(() => {
     const extractedNames = data_array.map((item) => item.name);
     setSizes(extractedNames);
@@ -128,7 +127,6 @@ const Product_Admin = () => {
     axios
       .request(config)
       .then((response) => {
-        console.log(response.data);
         if (response.data.result != "success") {
           localStorage.clear();
 
@@ -182,7 +180,7 @@ const Product_Admin = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        set_background_image(response.data[0].background);
+        set_background_image(response.data[0].banner1);
       })
       .catch((error) => {
         console.log(error);
@@ -202,7 +200,6 @@ const Product_Admin = () => {
     axios
       .request(config)
       .then((response) => {
-        // console.log(JSON.stringify(response.data));
         set_categories(response.data);
       })
       .catch((error) => {
@@ -416,7 +413,7 @@ const Product_Admin = () => {
   const ChangeBackgroundImage = (e) => {
     e.preventDefault();
     const formdata = new FormData();
-    formdata.append("background", data);
+    formdata.append("banner1", data);
 
     const requestOptions = {
       method: "PATCH",
@@ -424,7 +421,7 @@ const Product_Admin = () => {
       redirect: "follow",
     };
 
-    fetch(import.meta.env.VITE_API + `/store/web-info/2`, requestOptions)
+    fetch(import.meta.env.VITE_API + `/store/web-info/create_update`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         console.log(result);
@@ -911,6 +908,7 @@ const Product_Admin = () => {
                   <div className="box_input-img">
                     <div className="box_image">
                       <img src={product.images} alt="Product" />
+                      {/* <img src={product.images || imageicon} alt="Product" /> */}
                       <input
                         type="file"
                         id={`image-${index}`}
@@ -1114,190 +1112,6 @@ const Product_Admin = () => {
                         </div>
                       </div>
                     )}
-
-                    {/* <div
-                      className="box_icon_MdOutlineEdit"
-                      onClick={() => openConfirmationDesc(product.id)}
-                    >
-                      <li>Desc: {product.description}</li>
-                      <MdOutlineEdit id="icon_edit" />
-                    </div>
-                    {isConfirmationDesc && (
-                      <div className="background_addproductpopup_box">
-                        <div className="hover_addproductpopup_box">
-                          <div className="box_input">
-                            <p>Edit Description</p>
-                            <input
-                              type="text"
-                              placeholder="Description..."
-                              className="input_of_txtAddproduct"
-                              value={data}
-                              onChange={(e) => {
-                                set_data(e.target.value);
-                              }}
-                            />
-                          </div>
-                          <div className="btn_foasdf">
-                            <button
-                              className="btn_cancel btn_addproducttxt_popup"
-                              onClick={closeConfirmationDesc}
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              className="btn_confirm btn_addproducttxt_popup"
-                              onClick={() => {
-                                ChangeProductDescription();
-                              }}
-                            >
-                              Update
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )} */}
-                    {/* <div
-                      className="box_icon_MdOutlineEdit"
-                      onClick={() =>
-                        openConfirmationSize(product.id, product.sizes)
-                      }
-                    >
-                      <li>
-                        Size: {product.sizes.map((size) => size.name + " ")}
-                      </li>
-                      <MdOutlineEdit id="icon_edit" />
-                    </div>
-                    {isConfirmationSize && (
-                      <div className="background_addproductpopup_box">
-                        <div className="addproductpopup_box">
-                          <div className="box_size_input">
-                            <p>Edit product size</p>
-                            <div className="box_size_container">
-                              <div className="box_size_add">
-                                {sizes.map((size, sizeIndex) => (
-                                  <div
-                                    key={sizeIndex}
-                                    className="box_size_add_item"
-                                  >
-                                    <p>{size}</p>
-                                    <span
-                                      onClick={() => removeSizeInput(sizeIndex)}
-                                    >
-                                      <MdClose id="icon_MdClose" />
-                                    </span>
-                                  </div>
-                                ))}
-                              </div>
-
-                              <div className="box_size_content">
-                                <input
-                                  type="text"
-                                  placeholder="Add Sizes..."
-                                  value={currentSize}
-                                  onChange={(e) =>
-                                    setCurrentSize(e.target.value)
-                                  }
-                                />
-                                <div
-                                  className="btn_addsize"
-                                  onClick={() => addSizeInput()}
-                                >
-                                  Add
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="btn_foasdf">
-                            <button
-                              className="btn_cancel btn_addproducttxt_popup"
-                              onClick={closeConfirmationSize}
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              className="btn_confirm btn_addproducttxt_popup"
-                              onClick={() => {
-                                ChangeProductSizes();
-                              }}
-                            >
-                              Update
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )} */}
-                    {/* <div
-                      className="box_icon_MdOutlineEdit"
-                      onClick={() =>
-                        openConfirmationColor(product.id, product.colors)
-                      }
-                    >
-                      <li>
-                        Color: {product.colors.map((color) => color.name + " ")}
-                      </li>
-                      <MdOutlineEdit id="icon_edit" />
-                    </div>
-                    {isConfirmationColor && (
-                      <div className="background_addproductpopup_box">
-                        <div className="addproductpopup_box">
-                          <div className="box_size_input">
-                            <p>Edit product color</p>
-                            <div className="box_size_container">
-                              <div className="box_size_add">
-                                {colors.map((color, colorIndex) => (
-                                  <div
-                                    key={colorIndex}
-                                    className="box_size_add_item"
-                                  >
-                                    <p>{color}</p>
-                                    <span
-                                      onClick={() =>
-                                        removeColorInput(colorIndex)
-                                      }
-                                    >
-                                      <MdClose id="icon_MdClose" />
-                                    </span>
-                                  </div>
-                                ))}
-                              </div>
-
-                              <div className="box_size_content">
-                                <input
-                                  type="text"
-                                  placeholder="Add Colors..."
-                                  value={currentColor}
-                                  onChange={(e) =>
-                                    setCurrentColor(e.target.value)
-                                  }
-                                />
-                                <div
-                                  className="btn_addsize"
-                                  onClick={() => addColorInput()}
-                                >
-                                  Add
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="btn_foasdf">
-                            <button
-                              className="btn_cancel btn_addproducttxt_popup"
-                              onClick={closeConfirmationColor}
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              className="btn_confirm btn_addproducttxt_popup"
-                              onClick={() => {
-                                ChangeProductColors();
-                              }}
-                            >
-                              Update
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )} */}
                   </div>
                 </div>
               ))}

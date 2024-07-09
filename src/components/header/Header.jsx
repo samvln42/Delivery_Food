@@ -14,9 +14,7 @@ const Header = () => {
   const [logo, set_logo] = useState(null);
   const storage = JSON.parse(window.localStorage.getItem("user"));
   const navigate = useNavigate();
-  const [search, setSearch] = useState(
-    new URLSearchParams(window.location.search).get("search") || ""
-  );
+  const [search, set_search] = useState("");
   var store_id = false;
   var is_admin = false;
   if (localStorage.getItem("user")) {
@@ -86,36 +84,33 @@ const Header = () => {
       });
   }, [logo]);
 
-  // function OnSearch(e) {
-  //   e.preventDefault();
-  //   let data = JSON.stringify({
-  //     search: search,
-  //   });
-
-  //   let config = {
-  //     method: "post",
-  //     maxBodyLength: Infinity,
-  //     url: import.meta.env.VITE_API + "/api/search",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     data: data,
-  //   };
-
-  //   axios
-  //     .request(config)
-  //     .then((response) => {
-  //       console.log(JSON.stringify(response.data));
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
-
-  const handleSearch = (e) => {
+  function OnSearch(e) {
     e.preventDefault();
-    navigate(`/search/?search=${search}`);
-  };
+    let data = JSON.stringify({
+      search: search,
+    });
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: import.meta.env.VITE_API + "/api/search",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  
 
   return (
     <>
@@ -158,7 +153,7 @@ const Header = () => {
             <div className="ulHead_box">
               <form
                 className="search_wrap search_wrap_2"
-                onSubmit={handleSearch}
+                onSubmit={OnSearch}
               >
                 <div className="search_box">
                   <div className="btn_common">
@@ -171,7 +166,7 @@ const Header = () => {
                     className="input_search_heaederr"
                     placeholder="Search..."
                     onChange={(e) => {
-                      setSearch(e.target.value);
+                      set_search(e.target.value);
                     }}
                   ></input>
                 </div>

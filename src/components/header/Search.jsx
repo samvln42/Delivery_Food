@@ -7,8 +7,8 @@ import Banner from "../header/Banner";
 import Menu from "../menuFooter/Menu";
 
 const Search = () => {
-  const token = localStorage.getItem("token");
-  const user = localStorage.getItem("user");
+  // const token = localStorage.getItem("token");
+  // const user = localStorage.getItem("user");
   const [logo, set_logo] = useState(null);
   const navigate = useNavigate();
   const [ShowFilter, setShowFilter] = useState(false);
@@ -33,6 +33,25 @@ const Search = () => {
       setSearch(searchParam);
     }
   }, [searchParam]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API}/store/search/?search=${search}`
+        );
+        setAppState({
+          result: response.data,
+        });
+        setCurrentPage(1);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [search]);
+
 
   useEffect(() => {
     let config = {
@@ -100,29 +119,8 @@ const Search = () => {
 //         console.log(error);
 //       });
 //   }
-useEffect(() => {
-    if (searchParam) {
-      setSearch(searchParam);
-    }
-  }, [searchParam]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API}/store/search/?search=${search}`
-        );
-        setAppState({
-          result: response.data,
-        });
-        setCurrentPage(1);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [search]);
+ 
 
 
 
