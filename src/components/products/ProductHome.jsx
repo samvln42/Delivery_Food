@@ -175,9 +175,6 @@ const ProductHome = () => {
                   <Link to="/" className="link active">
                     Home
                   </Link>
-                  <Link to="#" className="link ">
-                    Chat
-                  </Link>
                   <Link to="/order" className="link ">
                     Orders
                   </Link>
@@ -216,13 +213,7 @@ const ProductHome = () => {
                       <FaRegUser className="head_colorr" />
                     </Link>
                   </div>
-                  {storage.store_id !== false && (
-                    <div className="userAndstore">
-                      <Link to={`/dashboard`}>
-                        <HiOutlineBuildingStorefront className="head_colorr" />
-                      </Link>
-                    </div>
-                  )}
+                 
                   {storage.is_admin !== false && (
                     <div className="userAndstore">
                       <Link to={`/dashboard`}>
@@ -293,7 +284,7 @@ const ProductHome = () => {
         <div className="product-area">
           {currentGoods.map(
             (i, index) =>
-              i.category !== "Food" && (
+              i.category !== "" && (
                 <div className="box-product" key={index}>
                   <Link to={`/goods/${i.id}`}>
                     <div className="img">
