@@ -81,7 +81,7 @@ const Menu = () => {
           
 
         <hr className="hrfoo" />
-        <p className="lastFooter">Copyright &#169; Delivery 2023</p>
+        <p className="lastFooter">Copyright &#169; Delivery 2024</p>
       </footer>
 
       {/* Footer Menu For Mobile */}
