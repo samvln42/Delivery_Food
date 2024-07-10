@@ -19,6 +19,7 @@ import Contact from "./components/contact/Contact"
 import ProfileEdit from "./components/profile/ProfileEdit";
 import More from "./components/more/More";
 import Search from "./components/header/Search";
+import QrCode from "../QrCode";
 
 //------ Seller ------//
 import Stores from "./components/seller/stores/Store";

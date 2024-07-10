@@ -7,6 +7,7 @@ import { HiOutlineBuildingStorefront } from "react-icons/hi2";
 import { FaMagnifyingGlass, FaCartShopping, FaRegUser } from "react-icons/fa6";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { BiLogIn } from "react-icons/bi";
+import Header from "../header/Header";
 
 const ProductHome = () => {
   const token = localStorage.getItem("token");
@@ -16,13 +17,23 @@ const ProductHome = () => {
   const [ShowFilter, setShowFilter] = useState(false);
   const [goods_list, set_goods_list] = useState([]);
   const storage = JSON.parse(window.localStorage.getItem("user"));
-  const [search, set_search] = useState("");
   const [filter, set_filter] = useState(1);
   const [category_list, set_category_list] = useState([]);
   const [category_name, set_category_name] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const totalPages = Math.ceil(goods_list.length / itemsPerPage);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchParam = urlParams.get("search") || "";
+  const [search, set_search] = useState(searchParam);
+
+  useEffect(() => {
+    if (search !== searchParam) {
+      set_search(searchParam);
+    }
+  }, [searchParam]);
+
 
   useEffect(() => {
     let config = {
@@ -64,32 +75,6 @@ const ProductHome = () => {
       });
   }, [logo]);
 
-  function OnSearch(e) {
-    e.preventDefault();
-    let data = JSON.stringify({
-      search: search,
-    });
-
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: import.meta.env.VITE_API + "/store/search",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        set_goods_list(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
 
   function ChangeFilter(e, number) {
     e.stopPropagation();
@@ -161,7 +146,8 @@ const ProductHome = () => {
 
   return (
     <div>
-      <section id="header">
+      <Header/>
+      {/* <section id="header">
         <div className="navbar">
           <div className="headWithBox">
             <div className="headMenu">
@@ -236,14 +222,13 @@ const ProductHome = () => {
                     Login
                     <BiLogIn id="icon_BiLogIn"/>
                     </Link>
-                    {/* <BiLogIn id="icon_BiLogIn"/> */}
                   </div>
                 </div>
               )}
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <div className="category_container2">
         {category_list.map((category, index) => (

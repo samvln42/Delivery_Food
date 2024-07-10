@@ -14,7 +14,7 @@ const Header = () => {
   const [logo, set_logo] = useState(null);
   const storage = JSON.parse(window.localStorage.getItem("user"));
   const navigate = useNavigate();
-  const [search, set_search] = useState("");
+  const [search, set_search] = useState(new URLSearchParams(window.location.search).get("search") || "");
   var store_id = false;
   var is_admin = false;
   if (localStorage.getItem("user")) {
@@ -84,31 +84,36 @@ const Header = () => {
       });
   }, [logo]);
 
-  function OnSearch(e) {
+  // function OnSearch(e) {
+  //   e.preventDefault();
+  //   let data = JSON.stringify({
+  //     search: search,
+  //   });
+
+  //   let config = {
+  //     method: "post",
+  //     maxBodyLength: Infinity,
+  //     url: import.meta.env.VITE_API + "/api/search",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     data: data,
+  //   };
+
+  //   axios
+  //     .request(config)
+  //     .then((response) => {
+  //       console.log(JSON.stringify(response.data));
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
+
+  const handleSearch = (e) => {
     e.preventDefault();
-    let data = JSON.stringify({
-      search: search,
-    });
-
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: import.meta.env.VITE_API + "/api/search",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+    navigate(`/search/?search=${search}`);
+  };
 
   
 
@@ -134,9 +139,9 @@ const Header = () => {
                   >
                     Home
                   </Link>
-                  {/* <Link to="#" className="link ">
+                  <Link to="https://www.kakaocorp.com/page/service/service/KakaoTalk?lang=en" className="link ">
                     Chat
-                  </Link> */}
+                  </Link>
                   <Link
                     to="/order"
                     className={
@@ -153,7 +158,7 @@ const Header = () => {
             <div className="ulHead_box">
               <form
                 className="search_wrap search_wrap_2"
-                onSubmit={OnSearch}
+                onSubmit={handleSearch}
               >
                 <div className="search_box">
                   <div className="btn_common">

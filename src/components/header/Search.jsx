@@ -23,34 +23,42 @@ const Search = () => {
 
   const urlParams = new URLSearchParams(window.location.search);
   const searchParam = urlParams.get("search");
-  const [search, setSearch] = useState(searchParam || "");
+  const [search, set_search] = useState(searchParam || "");
   const [appState, setAppState] = useState({
     result: [],
   });
 
   useEffect(() => {
     if (searchParam) {
-      setSearch(searchParam);
+      set_search(searchParam);
     }
   }, [searchParam]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API}/store/search/?search=${search}`
-        );
-        setAppState({
-          result: response.data,
-        });
-        setCurrentPage(1);
-      } catch (error) {
-        console.log(error);
-      }
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_API}/store/search/?search=${search}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
     };
 
-    fetchData();
-  }, [search]);
+    console.log(config)
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        console.log("response.data.....", response.data)
+        set_goods_list(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [])
+
 
 
   useEffect(() => {
@@ -92,36 +100,6 @@ const Search = () => {
         console.log(error);
       });
   }, [logo]);
-
-//   function OnSearch(e) {
-//     e.preventDefault();
-//     let data = JSON.stringify({
-//       search: search,
-//     });
-
-//     let config = {
-//       method: "post",
-//       maxBodyLength: Infinity,
-//       url: import.meta.env.VITE_API + "/store/search",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       data: data,
-//     };
-
-//     axios
-//       .request(config)
-//       .then((response) => {
-//         console.log(JSON.stringify(response.data));
-//         set_goods_list(response.data);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   }
-
- 
-
 
 
   function ChangeFilter(e, number) {
@@ -196,6 +174,8 @@ const Search = () => {
     <>
       <Header />
       <Banner />
+      <br />
+      <br />
       <div className="category_container2">
         {category_list.map((category, index) => (
           <div className="box-category" key={index}>
@@ -235,7 +215,7 @@ const Search = () => {
         <div className="product-area">
           {currentGoods.map(
             (i, index) =>
-              i.category !== "Food" && (
+              i.category !== "" && (
                 <div className="box-product" key={index}>
                   <Link to={`/goods/${i.id}`}>
                     <div className="img">

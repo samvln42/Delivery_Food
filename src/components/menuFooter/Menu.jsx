@@ -1,6 +1,6 @@
 import "./menu.css";
 import { Link, useLocation } from "react-router-dom";
-import QrdownloadApp from "../../img/QrdownloadApp.png";
+import QRCode_delivery from "../../img/QRCode_delivery.png";
 import Logo1 from "../../img/Logo1.png";
 import { FaCartShopping } from "react-icons/fa6";
 import { HiOutlineHome } from "react-icons/hi";
@@ -50,22 +50,22 @@ const Menu = () => {
             <div className="footconentBox">
               <h3 className="txt_footHead">About</h3>
               <Link to="/" className="txt_pFoot">
-                <img src={Logo1} alt="" />
+                <img src={i.logo} alt="" />
               </Link>
-              <p>{i.name}</p>
+              <p className="txt_pFoot">{i.name}</p>
             </div>
 
             <div className="footconentBox">
               <h3 className="txt_footHead">Contact us</h3>
               <p className="txt_pFoot">Phone: {i.tel1}</p>
-              <p className="txt_pFoot">Phone: {i.tel2}</p>
+              {/* <p className="txt_pFoot">Phone: {i.tel2}</p> */}
               <p className="txt_pFoot">Email: {i.email}</p>
               <p className="txt_pFoot">Address: {i.address}</p>
             </div>
             <div className="footconentBox3">
               <h3 className="txt_footHead txh3">URL for find food</h3>
               <div className="foot_contentItem">
-                <img src={QrdownloadApp} alt="QrdownloadApp" />
+                <img src={QRCode_delivery} alt="QrdownloadApp" />
                 
               </div>
             </div>

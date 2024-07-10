@@ -12,6 +12,11 @@
     display: grid;
     gap: 1rem;
 }
+.txt_textarea_description{
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
 
 .iconnn_copy_account {

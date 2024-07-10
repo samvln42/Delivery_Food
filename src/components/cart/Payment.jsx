@@ -285,7 +285,7 @@ const Payment = ({ orders, order_from, onPay }) => {
       <div className="guopBoxPayment_container">
         <h2 className="h2_boxPayment">Payment</h2>
         <div className="adress_payment_content">
-          <h3>Details:</h3>
+          <h2>Details:</h2>
 
           {orders.map((product, index) => (
             <div key={index}>
@@ -298,7 +298,7 @@ const Payment = ({ orders, order_from, onPay }) => {
                       {/* <p>Color: {item.color}</p>
                       <p>Size: {item.size}</p> */}
                       <p>
-                        Price:{" "}$
+                        Price: $
                         {parseFloat(item.price).toLocaleString("en-US", {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
@@ -313,6 +313,11 @@ const Payment = ({ orders, order_from, onPay }) => {
                           useGrouping: true,
                         })}
                       </p>
+                      <textarea
+                        type="text"
+                        placeholder="Description..."
+                        className="txt_textarea_description"
+                      />
                       <p hidden>{(totalPrice += item.price * item.quantity)}</p>
                     </div>
                   </div>
@@ -321,14 +326,20 @@ const Payment = ({ orders, order_from, onPay }) => {
             </div>
           ))}
 
-          <h3>Address:</h3>
+          <h2>Address:</h2>
           <div className="box_address">
             <form className="box_address_input">
               <div className="box">
                 <label htmlFor="prov">Contact number:</label>
-                <input type="text" id="prov" value={tel} onChange={handleTel} placeholder="Phone number or KakaotaikID "/>
+                <input
+                  type="text"
+                  id="prov"
+                  value={tel}
+                  onChange={handleTel}
+                  placeholder="Phone number or KakaotaikID "
+                />
               </div>
-              
+
               <div className="box">
                 <label htmlFor="city">Address:</label>
                 <input
@@ -339,21 +350,24 @@ const Payment = ({ orders, order_from, onPay }) => {
                   placeholder="Detail address village, city, hotel"
                 />
               </div>
-              
+
               <div className="box">
                 {/* <label htmlFor="branch">If you will pay cash: please write down cash if you will pay transfer please your bank account name.</label> */}
-                <label htmlFor="branch">Enter: you bank account name in cash pay by transfer or Enter: "Cash" in case pay cash</label>
-                <input
-                  type="text"
-                  id="prov"
-                  value={account_name}
-                  onChange={handleAccountName}
-                  placeholder="Account name / Cash"
-                />
+                <label htmlFor="branch">
+                  Enter: you bank account name in cash pay by transfer or Enter:
+                  "Cash" in case pay cash
+                </label>
+                <select name="category" className="product_category" required>
+                  <option className="inputproduct" value="1">
+                    Select cash or transfer
+                  </option>
+                  <option value="1">Cash</option>
+                  <option value="2">Transfer</option>
+                </select>
               </div>
             </form>
           </div>
-         
+
           <div className="box_transfer">
             <p className="box_transfer_p_line">
               Please transfer money to this account
@@ -368,28 +382,19 @@ const Payment = ({ orders, order_from, onPay }) => {
                 className="iconnn_copy_account"
                 onClick={copyToClipboard}
               />
-            
             </div>
-            <p className="box_containner_total">Total Price:
-              <span> $ 
+            <p className="box_containner_total">
+              Total Price:
+              <span>
+                {" "}
+                $
                 {parseFloat(totalPrice).toLocaleString("en-US", {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-                useGrouping: true,
-              })}
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                  useGrouping: true,
+                })}
               </span>
-              
-              
-              </p>
-            {/* <h3 className="box_transfer_p_line">
-              Total Price:{" "}$
-              {parseFloat(totalPrice).toLocaleString("en-US", {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-                useGrouping: true,
-              })}{" "}
-            </h3> */}
-            
+            </p>
           </div>
           <Link onClick={handlePay} className="save">
             Confirm
