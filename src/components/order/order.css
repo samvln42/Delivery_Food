@@ -1,13 +1,11 @@
 #container_order_item {
-    width: 80%;
+    width: 65%;
     margin: 6rem auto 0 auto;
 }
 
-/* ===== */
 .product-area {
     margin-bottom: 10rem;
 }
-/* ===== */
 
 #container_order_item .container_order_all {
     display: grid;

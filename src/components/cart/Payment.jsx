@@ -326,7 +326,7 @@ const Payment = ({ orders, order_from, onPay }) => {
             <form className="box_address_input">
               <div className="box">
                 <label htmlFor="prov">Contact number:</label>
-                <input type="text" id="prov" value={tel} onChange={handleTel} placeholder="Phone number"/>
+                <input type="text" id="prov" value={tel} onChange={handleTel} placeholder="Phone number or KakaotaikID "/>
               </div>
               
               <div className="box">

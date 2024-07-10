@@ -3,42 +3,22 @@ import "./app.css";
 
 //------ Login-SignUp Page ------//
 import LoginUser from "./components/loginAndSignup/LoginUser";
-import RegisterUser from "./components/loginAndSignup/RegisterUser";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
-import SigupGoogle from "./components/sigupforGoogle/SigupGoogle";
-
-// import Signup1 from "./components/loginAndSignup/Signup1";
 import Signup2 from "./components/loginAndSignup/Signup2";
-import ChangeSeller from "./components/loginAndSignup/ChangeSeller";
-import AdditionalSeller from "./components/loginAndSignup/AdditionalSeller"
-
-
-//------ Profile Page ------//
-import ProfileEdit from "./components/profile/ProfileEdit";
-import Terms from "./components/termsandprivacy/Terms";
-import Privacy from "./components/termsandprivacy/Privacy";
-import More from "./components/more/More";
-import Search from "./components/header/Search";
-
 
 
 //------ Home Page ------//
 import Home from "./components/homePage/HomePage";
 import ProductDetails from "./components/products/ProductDetails";
 import Cart from "./components/cart/Cart";
-import SuccessfulBuy from "./components/cart/SuccessfulBuy";
-import Chats from "./components/chat/Chats";
-import ChatListPage from "./components/chat/ChatListPage";
-import ChatRoomPage from "./components/chat/ChatRoomPage";
-
-import Chat_Details from "./components/chat/Chat_Details";
-
 import Address from "./components/cart/Address";
 import Payment from "./components/cart/Payment";
 import Order from "./components/order/Order";
 import Bill from "./components/order/Bill";
-
 import Contact from "./components/contact/Contact"
+import ProfileEdit from "./components/profile/ProfileEdit";
+import More from "./components/more/More";
+import Search from "./components/header/Search";
 
 //------ Seller ------//
 import Stores from "./components/seller/stores/Store";
@@ -88,40 +68,23 @@ function App() {
         <Routes>
           {/* --------- Login-Signup page---------- */}
           <Route path="/loginuser" Component={LoginUser} />
-          <Route path="/registeruser" Component={RegisterUser} />
           <Route path="/forgotpassword" Component={ForgotPassword} />
-          <Route path="/sigupgoogle" Component={SigupGoogle} />
 
           {/* <Route path="/signup1" Component={Signup1} />
           <Route path="/signup" Component={Signup1} /> */}
           <Route path="/signup2" Component={Signup2} />
-          <Route path="/change-seller" Component={ChangeSeller} />
-          <Route path="/additional-seller" Component={AdditionalSeller} />
 
           {/* --------- Profile page---------- */}
           <Route path="/profileedit" Component={ProfileEdit} />
-          {/* <Route path="/profile" Component={Profile} /> */}
-          {/* <Route path="/selleredit" Component={SellerEdit} /> */}
           <Route path="/more" Component={More} />
-          <Route path="/terms" Component={Terms} />
-          <Route path="/privacy" Component={Privacy} />
-
           <Route path="/contact" Component={Contact} />
           <Route path="/search" Component={Search} />
 
           {/* --------- Home Page ---------- */}
           <Route path="/" exact Component={Home} />
           <Route path="/goods/:goods_id" Component={ProductDetails} />
-
           <Route path="/cart" Component={Cart} />
-          <Route path="/successfulbuy" Component={SuccessfulBuy} />
           <Route path="/address" Component={Address} />
-          <Route path="/chats" Component={Chats} />
-          <Route path="/chat-list" Component={ChatListPage} />
-          <Route path="/chats-room" Component={ChatRoomPage} />
-
-          <Route path="/chat-details" Component={Chat_Details} />
-
           <Route path="/payment" Component={Payment} />
           <Route path="/order" Component={Order} />
           <Route path="/bill/:bill_id" Component={Bill} />
@@ -135,7 +98,6 @@ function App() {
           <Route path="/payment-store" Component={Payment_store} />
           <Route path="/add-payment-store" Component={AddPaymentStore} />
           <Route path="/dashboard-seller" Component={Dashboard_seller} />
-          {/* <Route path="/order-store" Component={OrderStore} /> */}
           <Route path="/order-pending" Component={PendingOrder} />
           <Route path="/order-processing" Component={ProcessingOrder} />
           <Route path="/order-shipped" Component={ShippedOrder} />
@@ -159,9 +121,6 @@ function App() {
           <Route path="/order/processing" Component={OrderProcess} />
           <Route path="/order/shipped" Component={OrderShipped} />
           <Route path="/order/delivered" Component={OrderDelivered} />
-
-          {/* <Route path="/restaurant/1" Component={OrderDelivered} />
-          <Route path="/restaurant/1/dashboard" Component={OrderDelivered} /> */}
           
         </Routes>
       </Router>

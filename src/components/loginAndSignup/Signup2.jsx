@@ -58,15 +58,15 @@ const Signup2 = () => {
       });
       return;
     }
-    if (user_tyep == "1") {
-      if (!data.nickname) {
-        MySwal.fire({
-          text: "Please fill the nickname!",
-          icon: "question",
-        });
-        return;
-      }
-    }
+    // if (user_tyep == "1") {
+    //   if (!data.nickname) {
+    //     MySwal.fire({
+    //       text: "Please fill the nickname!",
+    //       icon: "question",
+    //     });
+    //     return;
+    //   }
+    // }
     if (!data.password) {
       MySwal.fire({
         text: "Please fill the password!",
@@ -244,7 +244,7 @@ const Signup2 = () => {
             placeholder="Certication Number"
             required
           />
-          {user_tyep == "1" && (
+          {/* {user_tyep == "1" && (
             <input
               type="text"
               name="nickname"
@@ -253,7 +253,7 @@ const Signup2 = () => {
               placeholder="Nickname (maximun 10 characters)"
               required
             />
-          )}
+          )} */}
 
           <input
             type="password"

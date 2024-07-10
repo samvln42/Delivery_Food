@@ -63,17 +63,10 @@ const Menu = () => {
               <p className="txt_pFoot">Address: {i.address}</p>
             </div>
             <div className="footconentBox3">
-              <h3 className="txt_footHead txh3">Download App</h3>
+              <h3 className="txt_footHead txh3">URL for find food</h3>
               <div className="foot_contentItem">
                 <img src={QrdownloadApp} alt="QrdownloadApp" />
-                <div className="guop_btndownl">
-                  <Link to="#" className="footLink">
-                    Play Store
-                  </Link>
-                  <Link to="#" className="footLink">
-                    App Store
-                  </Link>
-                </div>
+                
               </div>
             </div>
           </div>

@@ -13,6 +13,8 @@ import profile from "../../img/profile.jpg";
 import axios from "axios";
 import Header from "../header/Header";
 import Menu from "../menuFooter/Menu";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export const More = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -21,6 +23,7 @@ export const More = () => {
   const storage = JSON.parse(window.localStorage.getItem("user"));
   const userID = localStorage.getItem("userID");
   const navigate = useNavigate();
+  const MySwal = withReactContent(Swal);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -61,7 +64,10 @@ export const More = () => {
       const response = await axios(config);
       if (response.status === 204) {
         // Account deleted successfully
-        alert("Account deleted successfully");
+        MySwal.fire({
+          text: "Account deleted successfully",
+          icon: "success",
+        });
         console.log("Account deleted successfully");
         localStorage.clear();
         navigate("/");
@@ -93,37 +99,12 @@ export const More = () => {
               Name: {storage.nickname || storage.email}
             </div>
           </div>
-          <Link to="/profileedit" className="right_box">
+          {/* <Link to="/profileedit" className="right_box">
             <button>View</button>
-          </Link>
+          </Link> */}
         </div>
 
-        {/* <hr className="hr" /> */}
         <div className="more-menu-list">
-          {/* <Link to="/terms" className="menu_icon">
-            <BsBackpack4Fill id="icon_more" />
-            <p>Terms of use</p>
-          </Link>
-          <hr className="hr" />
-          <Link to="/privacy" className="menu_icon">
-            <BsBackpack4Fill id="icon_more" />
-            <p>Privay Policy</p>
-          </Link>
-          <hr className="hr" />
-          <Link to="/forgotpassword" className="menu_icon">
-            <IoKeySharp id="icon_more" />
-            <p>Change password</p>
-          </Link> */}
-
-          {/* {storage.store_id === false && (
-            <div>
-              <hr className="hr" />
-              <Link to="/additional-seller" className="menu_icon">
-                <MdStorefront id="icon_more" />
-                <p className="txtP">Additional seller informaction</p>
-              </Link>
-            </div>
-          )} */}
 
           <hr className="hr" />
           <div onClick={() => setShowConfirmation(true)} className="menu_icon">
