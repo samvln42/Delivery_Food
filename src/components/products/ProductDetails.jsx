@@ -7,18 +7,7 @@ import Payment from "../cart/Payment";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { RotatingLines } from "react-loader-spinner";
-
-import { IoIosArrowBack } from "react-icons/io";
-import { BiStore } from "react-icons/bi";
-import icon_star from "../../img/icon_star.png";
-import icon_star2 from "../../img/icon_star2.png";
-import user from "../../img/user.png";
-import productImage from "../../img/productImage.png";
-import detailproduct from "../../img/detailproduct.jpg";
 import axios from "axios";
-import { ToggleButtonGroup, ToggleButton } from "@mui/material";
-import { FaLocationDot } from "react-icons/fa6";
-import { set } from "date-fns";
 
 function ProductDetails() {
   const token = localStorage.getItem("token");
@@ -332,7 +321,7 @@ function ProductDetails() {
                 <div>
                   <form className="boxProduct_deteils">
                     <div className="product-page-img">
-                      <img src={product.images} alt="" />
+                      <img src={product.images} alt="image" />
                     </div>
                     <div className="txtContentproduct">
                       <h1 className="txt_nameP">{product.name}</h1>

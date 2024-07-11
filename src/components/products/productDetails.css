@@ -38,7 +38,9 @@ body {
 
 .product-page-img img {
     width: 70%;
+    height: 250px;
     margin: auto;
+    object-fit: cover;
 }
 
 /* ----------- END Header ---------------- */
@@ -487,6 +489,7 @@ body {
     .product-page-img img {
         width: 100%;
         margin: 0;
+        margin-bottom: 7.5rem;
     }
 
     .boxProduct_deteils {
@@ -497,6 +500,7 @@ body {
 
     .txtContentproduct {
         padding: 0 10px;
+        margin-top: 5rem;
     }
 
     .review_box {
