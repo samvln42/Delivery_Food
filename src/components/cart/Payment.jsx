@@ -24,12 +24,14 @@ const Payment = ({ orders, order_from, onPay }) => {
   const navigate = useNavigate();
   const [tel, set_tel] = useState("");
   const [account_name, set_account_name] = useState("");
-  const [province, set_province] = useState("");
+  const [more, set_more] = useState('');
+  const [province, set_province] = useState([]);
   const [district, set_district] = useState("");
   const [shipping_company, set_shipping_company] = useState(0);
   const [branch, set_branch] = useState(0);
   const [copied, setCopied] = useState(false);
   const MySwal = withReactContent(Swal);
+
 
   // For order by cart
   if (order_from === "cart") {
@@ -125,13 +127,11 @@ const Payment = ({ orders, order_from, onPay }) => {
   };
   const handleProvince = (e) => {
     const value = e.target.value;
-    set_province(value);
-
+    set_more(value);
   };
   const handleDistrict = (e) => {
     const value = e.target.value;
     set_district(value);
-    
   };
   // const handlePaymentMethod = (e) => {
   //   const value = e.target.value;
@@ -162,19 +162,19 @@ const Payment = ({ orders, order_from, onPay }) => {
       });
       return; // Abort the function if tel is null
     }
-    // if (!province) {
-    //   MySwal.fire({
-    //     text: "Please add the province!",
-    //     icon: "question",
-    //   });
-    //   return; // Abort the function if province is null
-    // }
     if (!district) {
       MySwal.fire({
         text: "Please add the address!",
         icon: "question",
       });
       return; // Abort the function if district is null
+    }
+    if (!account_name) {
+      MySwal.fire({
+        text: "Please add the account name!",
+        icon: "question",
+      });
+      return; // Abort the function if statement_image is null
     }
     // if (!payment_method) {
     //   MySwal.fire({
@@ -197,13 +197,6 @@ const Payment = ({ orders, order_from, onPay }) => {
     //     icon: "question",
     //   });
     //   return; // Abort the function if branch is null
-    // }
-    // if (!account_name) {
-    //   MySwal.fire({
-    //     text: "Please add the account name!",
-    //     icon: "question",
-    //   });
-    //   return; // Abort the function if statement_image is null
     // }
 
     // Extract product information from each order
@@ -239,8 +232,7 @@ const Payment = ({ orders, order_from, onPay }) => {
       })),
     });
 
-    
-    // console.log("Dataaaaaa......", data);
+    console.log("Dataaaaaa......", data);
 
     let config = {
       method: "post",
@@ -251,7 +243,6 @@ const Payment = ({ orders, order_from, onPay }) => {
       },
       data: data,
     };
-
 
     axios
       .request(config)
@@ -291,8 +282,6 @@ const Payment = ({ orders, order_from, onPay }) => {
       });
   };
   // console.log(orders);
-
-  
 
   const [paymentMethod, setPaymentMethod] = useState("");
 
@@ -348,7 +337,7 @@ const Payment = ({ orders, order_from, onPay }) => {
                         type="text"
                         placeholder="Description..."
                         className="txt_textarea_description"
-                        value={province.id}
+                        value={more.id}
                         onChange={handleProvince}
                       />
                       <p hidden>{(totalPrice += item.price * item.quantity)}</p>
@@ -441,7 +430,7 @@ const Payment = ({ orders, order_from, onPay }) => {
               />
             )}
             <p className="box_containner_total">
-              Total Price:
+              Total price:
               <span>
                 {" "}
                 $
