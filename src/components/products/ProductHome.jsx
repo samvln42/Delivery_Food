@@ -175,6 +175,9 @@ const ProductHome = () => {
                   <Link to="/" className="link active">
                     Home
                   </Link>
+                  <Link to="https://www.kakaocorp.com/page/service/service/KakaoTalk?lang=en" className="link ">
+                    Chat
+                  </Link>
                   <Link to="/order" className="link ">
                     Orders
                   </Link>

@@ -24,7 +24,7 @@ const Payment = ({ orders, order_from, onPay }) => {
   const navigate = useNavigate();
   const [tel, set_tel] = useState("");
   const [account_name, set_account_name] = useState("");
-  const [province, set_province] = useState(0);
+  const [province, set_province] = useState("");
   const [district, set_district] = useState("");
   const [shipping_company, set_shipping_company] = useState(0);
   const [branch, set_branch] = useState(0);
@@ -237,6 +237,9 @@ const Payment = ({ orders, order_from, onPay }) => {
       })),
     });
 
+    
+    console.log("Dataaaaaa......", data);
+
     let config = {
       method: "post",
       maxBodyLength: Infinity,
@@ -247,12 +250,10 @@ const Payment = ({ orders, order_from, onPay }) => {
       data: data,
     };
 
-    console.log("oreders", data)
 
     axios
       .request(config)
       .then((response) => {
-        // alert("The order has been complated.");
         MySwal.fire({
           text: "The order has been complated.",
           icon: "success",
@@ -289,14 +290,15 @@ const Payment = ({ orders, order_from, onPay }) => {
   };
   // console.log(orders);
 
+  
+
   const [paymentMethod, setPaymentMethod] = useState("");
 
   const handlePaymentMethod = (event) => {
-
-    if(event.target.value == 'Cash'){
-      set_account_name(event.target.value)
-    }else{
-      set_account_name('')
+    if (event.target.value == "Cash") {
+      set_account_name(event.target.value);
+    } else {
+      set_account_name("");
     }
     setPaymentMethod(event.target.value);
   };
@@ -344,6 +346,8 @@ const Payment = ({ orders, order_from, onPay }) => {
                         type="text"
                         placeholder="Description..."
                         className="txt_textarea_description"
+                        value={province}
+                        onChange={handleProvince}
                       />
                       <p hidden>{(totalPrice += item.price * item.quantity)}</p>
                     </div>
@@ -424,15 +428,15 @@ const Payment = ({ orders, order_from, onPay }) => {
                   />
                 </div>
               </div>
-            ):(
+            ) : (
               <input
-              className="disable_input"
-              type="text"
-              id="name"
-              value={account_name}
-              onChange={handleAccountName}
-              placeholder="Account name"
-            />
+                className="disable_input"
+                type="text"
+                id="name"
+                value={account_name}
+                onChange={handleAccountName}
+                placeholder="Account name"
+              />
             )}
             <p className="box_containner_total">
               Total Price:
