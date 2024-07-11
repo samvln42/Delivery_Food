@@ -42,36 +42,37 @@ a {
     overflow: hidden;
 }
 
-/* .category_container2 {
-    width: 100%;
+.category_container2 {
+    width: 90%;
     display: flex;
     justify-content: center;
     margin: 3.5rem 0 2rem 0;
     gap: 2rem;
-    display: none;
-} */
+}
 
-/* .category_container2 .box-category button {
+.category_container2 .box-category button {
     border: none;
     background: none;
     cursor: pointer;
-} */
+}
 
-/* .box-category p{
-    font-size: 18px;
-} */
+.box-category p{
+    font-size: 16px;
+    padding: 7px;
+}
 
-/* .box-category .image {
-    width: 90px;
-    height: 90px;
-} */
+.box-category .image {
+    width: 100px;
+    height: auto;
+    padding: 3px;
+}
 
-/* .box-category .image img {
+.box-category .image img {
     width: 100%;
-    height: 100px;
+    height: 150px;
     object-fit: cover;
     overflow: hidden;
-} */
+}
 
 
 

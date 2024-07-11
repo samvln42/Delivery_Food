@@ -70,10 +70,17 @@
     gap: 10px;
     font-size: 18px;
 }
+.box_transfer{
+    padding: 0;
+}
+
+.disable_input{
+    display: none;
+}
 
 .box_transfer_p_line {
     padding: 10px 0;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 2px solid #ccc;
 }
 
 .boxaccount_number {

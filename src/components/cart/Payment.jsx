@@ -55,7 +55,7 @@ const Payment = ({ orders, order_from, onPay }) => {
     set_store_id(id);
   }, [orders]); // Update state whenever orders change
 
-  console.log("store: ", store_id);
+  // console.log("store: ", store_id);
   useEffect(() => {
     let data = JSON.stringify({
       token: token,
@@ -131,10 +131,10 @@ const Payment = ({ orders, order_from, onPay }) => {
     const value = e.target.value;
     set_district(value);
   };
-  const handleShippingCompany = (e) => {
-    const value = e.target.value;
-    set_shipping_company(value);
-  };
+  // const handlePaymentMethod = (e) => {
+  //   const value = e.target.value;
+  //   set_payment_method(value);
+  // };
   const handleBranch = (e) => {
     const value = e.target.value;
     set_branch(value);
@@ -144,18 +144,18 @@ const Payment = ({ orders, order_from, onPay }) => {
     set_account_name(value);
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(store_account_number);
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 3600000); // Reset the copied state after 1 hour
-  };
+  // const copyToClipboard = () => {
+  //   navigator.clipboard.writeText(store_account_number);
+  //   setCopied(true);
+  //   setTimeout(() => {
+  //     setCopied(false);
+  //   }, 3600000); // Reset the copied state after 1 hour
+  // };
 
   const handlePay = () => {
     if (!tel) {
       MySwal.fire({
-        text: "Please add the contact number!",
+        text: "Please add the contact number or kakaotalkID!",
         icon: "question",
       });
       return; // Abort the function if tel is null
@@ -169,11 +169,19 @@ const Payment = ({ orders, order_from, onPay }) => {
     // }
     if (!district) {
       MySwal.fire({
-        text: "Please add the district!",
+        text: "Please add the address!",
         icon: "question",
       });
       return; // Abort the function if district is null
     }
+    // if (!payment_method) {
+    //   MySwal.fire({
+    //     text: "Please choose payment cash or transfer!",
+    //     icon: "question",
+    //   });
+    //   return; // Abort the function if district is null
+    // }
+
     // if (!shipping_company) {
     //   MySwal.fire({
     //     text: "Please add the money shipping company name!",
@@ -188,13 +196,13 @@ const Payment = ({ orders, order_from, onPay }) => {
     //   });
     //   return; // Abort the function if branch is null
     // }
-    if (!account_name) {
-      MySwal.fire({
-        text: "Please add the account name!",
-        icon: "question",
-      });
-      return; // Abort the function if statement_image is null
-    }
+    // if (!account_name) {
+    //   MySwal.fire({
+    //     text: "Please add the account name!",
+    //     icon: "question",
+    //   });
+    //   return; // Abort the function if statement_image is null
+    // }
 
     // Extract product information from each order
     const products = orders.flatMap((order) =>
@@ -239,6 +247,8 @@ const Payment = ({ orders, order_from, onPay }) => {
       data: data,
     };
 
+    console.log("oreders", data)
+
     axios
       .request(config)
       .then((response) => {
@@ -277,7 +287,24 @@ const Payment = ({ orders, order_from, onPay }) => {
         console.log(error);
       });
   };
-  console.log(orders);
+  // console.log(orders);
+
+  const [paymentMethod, setPaymentMethod] = useState("");
+
+  const handlePaymentMethod = (event) => {
+
+    if(event.target.value == 'Cash'){
+      set_account_name(event.target.value)
+    }else{
+      set_account_name('')
+    }
+    setPaymentMethod(event.target.value);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(store_account_number);
+    alert("Account number copied to clipboard!");
+  };
 
   return (
     <>
@@ -336,7 +363,7 @@ const Payment = ({ orders, order_from, onPay }) => {
                   id="prov"
                   value={tel}
                   onChange={handleTel}
-                  placeholder="Phone number or KakaotaikID "
+                  placeholder="Phone number or KakaotalkID "
                 />
               </div>
 
@@ -352,37 +379,61 @@ const Payment = ({ orders, order_from, onPay }) => {
               </div>
 
               <div className="box">
-                {/* <label htmlFor="branch">If you will pay cash: please write down cash if you will pay transfer please your bank account name.</label> */}
-                <label htmlFor="branch">
-                  Enter: you bank account name in cash pay by transfer or Enter:
-                  "Cash" in case pay cash
+                <label htmlFor="category">
+                  Enter your bank account name in case of transfer or Enter
+                  "Cash" in case of cash payment
                 </label>
-                <select name="category" className="product_category" required>
-                  <option className="inputproduct" value="1">
-                    Select cash or transfer
-                  </option>
-                  <option value="1">Cash</option>
-                  <option value="2">Transfer</option>
+                <select
+                  name="category"
+                  className="product_category"
+                  required
+                  onChange={handlePaymentMethod}
+                >
+                  <option value="">Select cash or transfer</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Transfer">Transfer</option>
                 </select>
               </div>
             </form>
           </div>
 
           <div className="box_transfer">
-            <p className="box_transfer_p_line">
-              Please transfer money to this account
-            </p>
-            <div className="boxaccount_number">
-              <div className="boxaccount_number_p">
-                <p>Account number</p>
-                {/* <p>07099999999999</p> */}
-                <p>{store_account_number}</p>
+            {paymentMethod === "Transfer" ? (
+              <div className="box_address_input">
+                <div className="box">
+                  <label htmlFor="name">Account name:</label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={account_name}
+                    onChange={handleAccountName}
+                    placeholder="Account name"
+                  />
+                </div>
+                <p className="box_transfer_p_line">
+                  Please transfer money to this account
+                </p>
+                <div className="boxaccount_number">
+                  <div className="boxaccount_number_p">
+                    <p>Account number</p>
+                    <p>{store_account_number}</p>
+                  </div>
+                  <FiCopy
+                    className="iconnn_copy_account"
+                    onClick={copyToClipboard}
+                  />
+                </div>
               </div>
-              <FiCopy
-                className="iconnn_copy_account"
-                onClick={copyToClipboard}
-              />
-            </div>
+            ):(
+              <input
+              className="disable_input"
+              type="text"
+              id="name"
+              value={account_name}
+              onChange={handleAccountName}
+              placeholder="Account name"
+            />
+            )}
             <p className="box_containner_total">
               Total Price:
               <span>
