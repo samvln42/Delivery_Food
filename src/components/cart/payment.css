@@ -13,7 +13,7 @@
     gap: 1rem;
 }
 .txt_textarea_description{
-    padding: 5px;
+    padding: 2px 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -117,6 +117,9 @@
     .guopBoxPayment_container{
         width: 100%;
         padding: 0;
+    }
+    .product_category{
+        width: 100%;
     }
 }
 

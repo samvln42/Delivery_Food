@@ -1,14 +1,21 @@
+import "../products/ProductHome.css";
 import productImage from "../../img/productImage.png";
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import Header from "../header/Header";
+import { HiOutlineBuildingStorefront } from "react-icons/hi2";
+import { FaMagnifyingGlass, FaCartShopping, FaRegUser } from "react-icons/fa6";
+import { AiOutlineDashboard } from "react-icons/ai";
+import Header from "./Header";
 import Banner from "../header/Banner";
-import Menu from "../menuFooter/Menu";
 
 const Search = () => {
-  // const token = localStorage.getItem("token");
-  // const user = localStorage.getItem("user");
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchParam =urlParams.get("search");
+  const [search, setSearch] = useState(searchParam || "");
+
+  const token = localStorage.getItem("token");
+  const user = localStorage.getItem("user");
   const [logo, set_logo] = useState(null);
   const navigate = useNavigate();
   const [ShowFilter, setShowFilter] = useState(false);
@@ -16,50 +23,16 @@ const Search = () => {
   const storage = JSON.parse(window.localStorage.getItem("user"));
   const [filter, set_filter] = useState(1);
   const [category_list, set_category_list] = useState([]);
-  const [category_name, set_category_name] = useState("All");
+  // const [category_name, set_category_name] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const totalPages = Math.ceil(goods_list.length / itemsPerPage);
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const searchParam = urlParams.get("search");
-  const [search, set_search] = useState(searchParam || "");
-  const [appState, setAppState] = useState({
-    result: [],
-  });
-
   useEffect(() => {
     if (searchParam) {
-      set_search(searchParam);
+      setSearch(searchParam);
     }
   }, [searchParam]);
-
-  useEffect(() => {
-
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: `${import.meta.env.VITE_API}/store/search/?search=${search}`,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    console.log(config)
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        console.log("response.data.....", response.data)
-        set_goods_list(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [])
-
-
 
   useEffect(() => {
     let config = {
@@ -80,7 +53,7 @@ const Search = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  });
 
   useEffect(() => {
     let config = {
@@ -93,7 +66,7 @@ const Search = () => {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        // console.log(JSON.stringify(response.data));
         set_logo(response.data[0].logo);
       })
       .catch((error) => {
@@ -101,44 +74,60 @@ const Search = () => {
       });
   }, [logo]);
 
-
-  function ChangeFilter(e, number) {
-    e.stopPropagation();
-    if (number != filter) {
-      set_filter(number);
-      setShowFilter(false);
-    }
-  }
-
   const handleCategoryClick = (categoryName) => {
-    set_category_name(categoryName);
-  };
-
-  useEffect(() => {
-    let my_url = "";
-    if (category_name === "All") {
-      my_url = `/store/?category_type=${filter}`;
-    } else {
-      my_url = `/store/?category_name=${category_name}&category_type=${filter}`;
-    }
-    let config = {
-      method: "get",
-      maxBodyLength: Infinity,
-      url: import.meta.env.VITE_API + my_url,
-      headers: {
-        "Content-Type": "application/json",
+    navigate('/', {
+      state: {
+        category: categoryName,
       },
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        set_goods_list(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
+    });
+  };
+  if (!search == "") {
+    useEffect(() => {
+      let data = JSON.stringify({
+        search: search,
       });
-  }, [category_name, filter]);
+
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: import.meta.env.VITE_API + "/store/search",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          // console.log(JSON.stringify(response.data));
+          set_goods_list(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  } else {
+    useEffect(() => {
+      let config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: import.meta.env.VITE_API + `/store/?category_type=${filter}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          set_goods_list(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, [filter]);
+  }
 
   function StarAVG(value) {
     let star_avg = (value / 5) * 100;
@@ -168,11 +157,11 @@ const Search = () => {
     setCurrentPage(currentPage === 1 ? 1 : currentPage - 1);
   };
 
-  console.log("Category: ", category_list);
+  // console.log("fghyftgurtu ", currentGoods);
 
   return (
-    <>
-      <Header />
+    <div>
+      <Header/>
       <Banner />
       <br />
       <br />
@@ -215,7 +204,7 @@ const Search = () => {
         <div className="product-area">
           {currentGoods.map(
             (i, index) =>
-              i.category !== "" && (
+              i.category && (
                 <div className="box-product" key={index}>
                   <Link to={`/goods/${i.id}`}>
                     <div className="img">
@@ -292,8 +281,7 @@ const Search = () => {
           </button>
         </div>
       </div>
-      <Menu/>
-    </>
+    </div>
   );
 };
 

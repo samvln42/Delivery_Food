@@ -108,7 +108,7 @@ const Payment = ({ orders, order_from, onPay }) => {
     axios
       .request(config)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         set_store_account_number(response.data[0].account_number);
       })
       .catch((error) => {
@@ -126,10 +126,12 @@ const Payment = ({ orders, order_from, onPay }) => {
   const handleProvince = (e) => {
     const value = e.target.value;
     set_province(value);
+
   };
   const handleDistrict = (e) => {
     const value = e.target.value;
     set_district(value);
+    
   };
   // const handlePaymentMethod = (e) => {
   //   const value = e.target.value;
@@ -238,7 +240,7 @@ const Payment = ({ orders, order_from, onPay }) => {
     });
 
     
-    console.log("Dataaaaaa......", data);
+    // console.log("Dataaaaaa......", data);
 
     let config = {
       method: "post",
@@ -346,7 +348,7 @@ const Payment = ({ orders, order_from, onPay }) => {
                         type="text"
                         placeholder="Description..."
                         className="txt_textarea_description"
-                        value={province}
+                        value={province.id}
                         onChange={handleProvince}
                       />
                       <p hidden>{(totalPrice += item.price * item.quantity)}</p>

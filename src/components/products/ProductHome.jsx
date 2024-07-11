@@ -1,28 +1,33 @@
 import "./productHome.css";
 import productImage from "../../img/productImage.png";
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { HiOutlineBuildingStorefront } from "react-icons/hi2";
 import { FaMagnifyingGlass, FaCartShopping, FaRegUser } from "react-icons/fa6";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { BiLogIn } from "react-icons/bi";
+import Header from "../header/Header";
 
 const ProductHome = () => {
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("user");
   const [logo, set_logo] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation()
+  const { category } = location.state || {};
   const [ShowFilter, setShowFilter] = useState(false);
   const [goods_list, set_goods_list] = useState([]);
   const storage = JSON.parse(window.localStorage.getItem("user"));
   const [search, set_search] = useState("");
   const [filter, set_filter] = useState(1);
   const [category_list, set_category_list] = useState([]);
-  const [category_name, set_category_name] = useState("All");
+  const [category_name, set_category_name] = useState(category || "");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const totalPages = Math.ceil(goods_list.length / itemsPerPage);
+
+  // console.log("category_name:", category_name);
 
   useEffect(() => {
     let config = {
@@ -56,7 +61,7 @@ const ProductHome = () => {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        // console.log(JSON.stringify(response.data));
         set_logo(response.data[0].logo);
       })
       .catch((error) => {
@@ -64,40 +69,6 @@ const ProductHome = () => {
       });
   }, [logo]);
 
-  function OnSearch(e) {
-    e.preventDefault();
-    let data = JSON.stringify({
-      search: search,
-    });
-
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: import.meta.env.VITE_API + "/store/search",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        set_goods_list(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function ChangeFilter(e, number) {
-    e.stopPropagation();
-    if (number != filter) {
-      set_filter(number);
-      setShowFilter(false);
-    }
-  }
 
   const handleCategoryClick = (categoryName) => {
     set_category_name(categoryName);
@@ -105,10 +76,10 @@ const ProductHome = () => {
 
   useEffect(() => {
     let my_url = "";
-    if (category_name === "All") {
-      my_url = `/store/?category_type=${filter}`;
-    } else {
+    if (!category_name == "") {
       my_url = `/store/?category_name=${category_name}&category_type=${filter}`;
+    } else {
+      my_url = `/store/?category_type=${filter}`;
     }
     let config = {
       method: "get",
@@ -127,7 +98,7 @@ const ProductHome = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [category_name, filter]);
+  }, [category_name]);
 
   function StarAVG(value) {
     let star_avg = (value / 5) * 100;
@@ -157,97 +128,11 @@ const ProductHome = () => {
     setCurrentPage(currentPage === 1 ? 1 : currentPage - 1);
   };
 
-  console.log("fghyftgurtu ", currentGoods);
+  // console.log("fghyftgurtu ", currentGoods);
 
   return (
     <div>
-      <section id="header">
-        <div className="navbar">
-          <div className="headWithBox">
-            <div className="headMenu">
-              <div className="logo1">
-                <Link to="/">
-                  <img src={logo} alt="Logo" />
-                </Link>
-              </div>
-              <div className="boxLiMenu">
-                <div className="linkLi">
-                  <Link to="/" className="link active">
-                    Home
-                  </Link>
-                  <Link to="https://www.kakaocorp.com/page/service/service/KakaoTalk?lang=en" className="link ">
-                    Chat
-                  </Link>
-                  <Link to="/order" className="link ">
-                    Orders
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            <div className="ulHead_box">
-              <form className="search_wrap search_wrap_2" onSubmit={OnSearch}>
-                <div className="search_box">
-                  <div className="btn_common" onClick={OnSearch}>
-                    <FaMagnifyingGlass className="iconSearch" />
-                  </div>
-                  <input
-                    id="search"
-                    type="text"
-                    value={search}
-                    className="input_search_heaederr"
-                    placeholder="search..."
-                    onChange={(e) => {
-                      set_search(e.target.value);
-                    }}
-                  ></input>
-                </div>
-              </form>
-
-              {user && (
-                <div className="right_ofHeadBox">
-                  <div className="boxsearchContainer">
-                    <Link to="/cart">
-                      <FaCartShopping className="head_colorr" />
-                    </Link>
-                  </div>
-                  <div className="userAndstore">
-                    <Link to="/more">
-                      <FaRegUser className="head_colorr" />
-                    </Link>
-                  </div>
-                 
-                  {storage.is_admin !== false && (
-                    <div className="userAndstore">
-                      <Link to={`/dashboard`}>
-                        <AiOutlineDashboard className="head_colorr" />
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {!user && (
-                <div className="right_ofHeadBox">
-                  <div className="boxsearchContainer">
-                    <Link to="/cart">
-                      <FaCartShopping className="head_colorr" />
-                    </Link>
-                  </div>
-                  <div className="userAndstore">
-                    <Link to="/loginuser" className="Box_icon_login_BiLogIn">
-                    Login
-                    <BiLogIn id="icon_BiLogIn"/>
-                    </Link>
-                    {/* <BiLogIn id="icon_BiLogIn"/> */}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
+      <Header set_category_name={set_category_name} />
       <div className="category_container2">
         {category_list.map((category, index) => (
           <div className="box-category" key={index}>
@@ -320,7 +205,7 @@ const ProductHome = () => {
               borderRadius: "5px",
               cursor: "pointer",
               background: "#FF4F16",
-              color: "white"
+              color: "white",
             }}
             disabled={currentPage === 1}
             onClick={prevPage}
@@ -355,7 +240,7 @@ const ProductHome = () => {
               borderRadius: "5px",
               cursor: "pointer",
               background: "#FF4F16",
-              color: "white"
+              color: "white",
             }}
             disabled={currentPage === totalPages}
             onClick={nextPage}

@@ -132,7 +132,7 @@ const Bill = () => {
         <>
           <Header></Header>
           <div className="bill">
-            <Link to="/order" className="box_container_back_icons_back">
+            <Link to="/order" className="box_container_back_icons_backs">
               <IoIosArrowBack id="icons_back" />
               <p>Back</p>
             </Link>
@@ -143,7 +143,7 @@ const Bill = () => {
                   <p>
                     Date: {new Date(order_list.created_at).toLocaleString()}
                   </p>
-                  {/* <p>Name: </p> */}
+                  {/* <p>Name:</p> */}
                 </div>
               </div>
               <div className="billGopBox">

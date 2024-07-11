@@ -25,14 +25,14 @@ const Banner = () => {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        // console.log(JSON.stringify(response.data));
         set_background_image(response.data[0].banner1);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [background_image]);
-  console.log("Background: ", background_image)
+  // console.log("Background: ", background_image)
 
   const handlePrevSlide = () => {
     setDirection("left");

@@ -66,12 +66,10 @@ const Menu = () => {
               <h3 className="txt_footHead txh3">URL for find food</h3>
               <div className="foot_contentItem">
                 <img src={QRCode_delivery} alt="QrdownloadApp" />
-                
               </div>
             </div>
           </div>
         ))}
-          
 
         <hr className="hrfoo" />
         <p className="lastFooter">Copyright &#169; Delivery 2024</p>
@@ -126,7 +124,7 @@ const Menu = () => {
           </span>
           <span>Cart</span>
         </Link>
-        <Link
+        {/* <Link
           to="/contact"
           className={
             location.pathname === "/contact" ? "box-menu active" : "box-menu"
@@ -137,6 +135,19 @@ const Menu = () => {
             <GrContact />
           </span>
           <span>Contact</span>
+        </Link> */}
+        <Link
+          to="https://www.kakaocorp.com/page/service/service/KakaoTalk?lang=en"
+          className={
+            location.pathname === "https://www.kakaocorp.com/page/service/service/KakaoTalk?lang=en" ? "box-menu active" : "box-menu"
+          }
+          onClick={() => handleMenuClick("https://www.kakaocorp.com/page/service/service/KakaoTalk?lang=en")}
+        >
+          <span className="iconMenuSpan">
+            <GrContact />
+          </span>
+
+          <span>Kakao</span>
         </Link>
       </div>
     </section>

@@ -307,6 +307,7 @@ const OrderBill = () => {
                   <th>Product Name</th>
                   <th>Price</th>
                   <th>Amount</th>
+                  <th>Description</th>
                 </tr>
               </thead>
               {order_list.items &&
@@ -323,38 +324,41 @@ const OrderBill = () => {
                         })}
                       </td>
                       <td>{item.quantity}</td>
+                      <td>{item.province}</td>
                     </tr>
                   </tbody>
                 ))}
             </table>
           </div>
           <hr />
-          <div className="atitlePrice">
-            <h3>Total:</h3>
-            <h3>${order_list.total_prices}</h3>
-          </div>
-          <div className="aplace-on">
-            <div className="container_aplace">
-              <div className="box_places">
-                <p>
-                  Payment date:{" "}
-                  {new Date(order_list.created_at).toLocaleString()}
-                </p>
-                <p>Payment method: {order_list.account_name}</p>
-                <p>Address for delivery: {order_list.district}</p>
-                <p>Status: {order_list.status}</p>
-              </div>
+          <div className="box_container_total">
+            <div className="atitlePrice">
+              <h3>Total:</h3>
+              <h3>${order_list.total_prices}</h3>
             </div>
-            <div className="status btn">
-              {order_list.status !== "Delivered" && (
-                <button
-                  type="submit"
-                  className="aplace_form_button "
-                  onClick={ConfirmOrder}
-                >
-                  Confirm
-                </button>
-              )}
+            <div className="aplace-on">
+              <div className="container_aplace">
+                <div className="box_places">
+                  <p>
+                    Payment date:{" "}
+                    {new Date(order_list.created_at).toLocaleString()}
+                  </p>
+                  <p>Payment method: {order_list.account_name}</p>
+                  <p>Address for delivery: {order_list.district}</p>
+                  <p>Status: {order_list.status}</p>
+                </div>
+              </div>
+              <div className="status btn">
+                {order_list.status !== "Delivered" && (
+                  <button
+                    type="submit"
+                    className="aplace_form_button "
+                    onClick={ConfirmOrder}
+                  >
+                    Confirm
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -151,7 +151,7 @@ const Cart = () => {
     },
   ];
 
-  console.log(store_id);
+  // console.log(store_id);
 
   const getTotalItemForStore = (store_name) => {
     const storeItems = cart.filter((item) => item.store_name === store_name);
@@ -204,7 +204,7 @@ const Cart = () => {
       });
   }, [token]);
 
-  console.log("Cart:", cart); // Add this line to debug
+  // console.log("Cart:", cart); // Add this line to debug
 
   if (!cart) {
     return <div className="cart">Loading...</div>;

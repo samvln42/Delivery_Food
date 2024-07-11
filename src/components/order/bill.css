@@ -13,9 +13,10 @@
 }
 
 .guopoidHead {
+    width: 100%;
     display: grid;
     border-bottom: #DDDCE1 solid 1px;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
 }
 
 .iconnboxx {
@@ -24,7 +25,20 @@
     color: #347FFF;
 }
 
+.box_container_back_icons_backs {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color: #000;
+    margin-bottom: 1.2rem;
+}
+
+.box_container_back_icons_backs:hover {
+    color: #555;
+}
+
 .idf {
+    width: 100%;
     display: grid;
     gap: 1rem;
     padding-bottom: 1rem;
@@ -133,6 +147,9 @@
         width: 320px;
         margin-top: 2rem;
 
+    }
+    .box_container_back_icons_backs {
+        display: none;
     }
 }
 
